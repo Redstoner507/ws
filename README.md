@@ -8,9 +8,7 @@ Elle est inspirée de la célèbre commande [`sl`](https://github.com/mtoyoda/sl
 Par défaut, le programme affiche le cuirassé **Alsace**.  
 Des options permettent de changer le navire affiché (par ex. un petit bateau '-l' ou le cuirassé **Wisconsin** '-W').
 
-![Demo](./demo.gif)
-
----
+<img src="./demo.gif" alt="Demo" width="50%"/>
 
 ## Utilisation
 
