@@ -6,7 +6,9 @@
 Elle est inspirée de la célèbre commande [`sl`](https://github.com/mtoyoda/sl), mais adaptée à un univers naval.  
 
 Par défaut, le programme affiche le cuirassé **Alsace**.  
-Des options permettent de changer le navire affiché (par ex. un petit bateau ou le cuirassé **Wisconsin**).
+Des options permettent de changer le navire affiché (par ex. un petit bateau '-l' ou le cuirassé **Wisconsin** '-W').
+
+![Demo](./demo.gif)
 
 ---
 
@@ -17,6 +19,7 @@ ws [options]
 ```
 
 ## Auteurs et remerciements
+Développé par Yann STOLL-GEYER
 Merci à Toyoda Masashi pour avoir crée la commande original
 
 ## License
