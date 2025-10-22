@@ -21,7 +21,6 @@ Développé par Yann STOLL-GEYER.<br>
 Merci à Toyoda Masashi pour avoir créé la commande originale.
 
 ## License
-Ce projet est distribué sous la licence **MIT**.<br>
 Copyright 1993,1998,2014 Toyoda Masashi (mtoyoda@acm.org).
 
 ## Status du projet

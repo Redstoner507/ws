@@ -1,17 +1,18 @@
 #==========================================
-#    Makefile: makefile for ws 2.0
-#	Copyright 2024
+#    Makefile: makefile for ws 2.5
+#	Copyright 2025
 #                 Stoll-Geyer Yann
-#	Last Modified: 17/11/2024
+#	Last Modified: 22/10/2025
 #==========================================
 
 CC=gcc
-CFLAGS=-O -Wall
+CFLAGS= -O -Wall
+LIBS = -lncurses
 
 all: ws
 
 ws: ws.c ws.h
-	$(CC) $(CFLAGS) -o ws ws.c -lncurses
+	$(CC) $(CFLAGS) -o ws ws.c $(LIBS)
 
 clean:
 	rm -f ws

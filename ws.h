@@ -1,9 +1,9 @@
 /*
 ==========================================
-    ws.h: WS version 2.0
-	Copyright 2024
+    ws.c: WS version 2.5
+	Copyright 2025
                  Stoll-Geyer Yann
-	Last Modified: 17/11/2024
+	Last Modified: 22/10/2025
 ==========================================
 */
 #define SWSHEIGHT 2

@@ -1,11 +1,12 @@
 /*
 ==========================================
-    ws.c: WS version 2.0
-	Copyright 2024
+    ws.c: WS version 2.5
+	Copyright 2025
                  Stoll-Geyer Yann
-	Last Modified: 17/11/2024
+	Last Modified: 22/10/2025
 ==========================================
 */
+#define _POSIX_C_SOURCE 200112L
 
 #include <curses.h>
 #include <signal.h>
@@ -21,6 +22,7 @@ int my_mvaddstr(int y, int x, char *str);
 
 int SWS  = 0;
 int BB64 = 0;
+int SIGNAL = 1;
 
 
 int my_mvaddstr(int y, int x, char *str){
@@ -38,12 +40,14 @@ void option(char *str){
         switch (*str++) {
             case 'l': SWS = 1; break;
             case 'W': BB64 = 1; break;
+            case 'e': SIGNAL = 0; break;
             default: break;
         }
     }
 }
 
 int main(int argc, char *argv[]){
+    struct sigaction sa;
     int x,i; 
     for (i = 1; i < argc; ++i) {
         if (*argv[i] == '-') {
@@ -52,7 +56,15 @@ int main(int argc, char *argv[]){
     }
 
     initscr(); // Initialise  la lib (curses.h)
-    signal(SIGINT, SIG_IGN); // Retire l'effet du Ctrl+C
+
+    if (SIGNAL) {
+        sigemptyset(&sa.sa_mask);
+        sa.sa_flags = 0;
+        sa.sa_handler = SIG_IGN;
+        sigaction(SIGINT, &sa, NULL); // Ignorer SIGINT (Ctrl + C)
+        sigaction(SIGTSTP, &sa, NULL); // Ignorer SIGTSTP (Ctrl + Z)
+    }
+
     noecho(); // Empêche l'affichage des caractères entrée
     curs_set(0); // Rend le curseur invisible
     nodelay(stdscr, TRUE);
@@ -72,8 +84,8 @@ int main(int argc, char *argv[]){
         getch();
         refresh();
         usleep(40000);
-        //clear(); // "Temporaire différent de sl" Nettoie l'écran
     }
+    
     mvcur(0, COLS - 1, LINES - 1, 0);
     endwin(); // Nettoie et ferme la lib (curses.h)
     return 0;
