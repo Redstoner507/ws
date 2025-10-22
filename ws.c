@@ -8,8 +8,12 @@
 */
 #define _POSIX_C_SOURCE 200112L
 
+#include <ctype.h>
+#include <time.h>
 #include <curses.h>
+#include <limits.h>
 #include <signal.h>
+#include <stdlib.h>
 #include <unistd.h>
 #include "ws.h"
 
@@ -23,6 +27,7 @@ int my_mvaddstr(int y, int x, char *str);
 int SWS  = 0;
 int BB64 = 0;
 int SIGNAL = 1;
+int DISCO = 0;
 
 
 int my_mvaddstr(int y, int x, char *str){
@@ -34,13 +39,14 @@ int my_mvaddstr(int y, int x, char *str){
 }
 
 void option(char *str){
-    extern int SWS,BB64;
+    extern int SWS,BB64,DISCO,SIGNAL;
 
     while (*str != '\0') {
         switch (*str++) {
             case 'l': SWS = 1; break;
             case 'W': BB64 = 1; break;
             case 'e': SIGNAL = 0; break;
+            case 'd': DISCO = 1; break;
             default: break;
         }
     }
@@ -56,6 +62,14 @@ int main(int argc, char *argv[]){
     }
 
     initscr(); // Initialise  la lib (curses.h)
+
+    if (DISCO == 1) {
+        start_color();
+        init_pair(4, COLOR_RED, COLOR_BLACK);
+        init_pair(3, COLOR_YELLOW, COLOR_BLACK);
+        init_pair(2, COLOR_GREEN, COLOR_BLACK);
+        init_pair(1, COLOR_CYAN, COLOR_BLACK);
+    }
 
     if (SIGNAL) {
         sigemptyset(&sa.sa_mask);
@@ -83,7 +97,8 @@ int main(int argc, char *argv[]){
         } 
         getch();
         refresh();
-        usleep(40000);
+        struct timespec ts = {0, 40000 * 1000}; // 40,000 microseconds = 40ms
+        nanosleep(&ts, NULL);
     }
     
     mvcur(0, COLS - 1, LINES - 1, 0);
@@ -166,7 +181,9 @@ void add_smoke(int y, int x)
     static int dx[SMOKEPTNS] = {-2, -1, 0, 1, 1, 1, 1, 1, 2, 2,
                                  2,  2, 2, 3, 3, 3             };
     int i;
-
+    
+    if (DISCO && (x + INT_MAX/2) % 4 == 2)
+        attron(COLOR_PAIR((x + INT_MAX/2) / 16 % 4 + 1));
     if (x % 4 == 0) {
         for (i = 0; i < sum; ++i) {
             my_mvaddstr(S[i].y, S[i].x, Eraser[S[i].ptrn]);
